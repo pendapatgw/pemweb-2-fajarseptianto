@@ -1,7 +1,36 @@
 <?php
-require_once 'class-calculate.php';
-?>
+require_once "./class_bmipasien.php";
+  $nama = $_POST['nama'];
+  $gender = $_POST['gender'];
+  $umur = $_POST['umur'];
+  $berat = $_POST['berat'];
+  $tinggi = $_POST['tinggi'];
+  $proses = $_POST['proses'];
 
+  $pasien1 = new bmiPasien(58,183,date("d-m-y"));
+  $pasien1->nama = "ahmad";
+  $pasien1->gender = "laki-laki";
+  $pasien1->umur = "24";
+
+  
+  $pasien2 = new bmiPasien(58,174,date("d-m-y"));
+  $pasien2->nama = "rina";
+  $pasien2->gender = "perempuan";
+  $pasien2->umur = "19";
+
+  $pasien3 = new bmiPasien(68,183,date("d-m-y"));
+  $pasien3->nama = "lutfi";
+  $pasien3->gender = "laki-laki";
+  $pasien3->umur = "27";
+
+  $pasien4 = new bmiPasien($berat,$tinggi,date("d-m-y"));
+  $pasien4->nama = $nama;
+  $pasien4->gender = $gender;
+  $pasien4->umur = $umur;
+  
+  $ar_pasien = [$pasien1,$pasien2,$pasien3,$pasien4];
+  
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -13,48 +42,55 @@ require_once 'class-calculate.php';
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
     <!-- ends here -->
     <!-- personal css -->
-    <link rel="stylesheet" href="result.css" />
+    <link rel="stylesheet" href="./assets/style.css" />
     <!-- ends here -->
   </head>
-  <body>
-    <section id="homepage" class="bg-primary">
-      <div class="container text-light">
-        <h1 class="text-capitalize">berhasil</h1>
-        <p class="text-capitalize">data yang berhasil kami dapat ialah</p>
-        <p class="text-capitalize">nama kamu adalah... <?php echo $nama ?></p>
-        <p class="text-capitalize">gender... <?php echo $gender ?></p>
-        <p class="text-capitalize">umur kamu .... <?php echo $umur ?></p>
-        <p class="text-capitalize">berat kamu adalah... <?php echo $beratBadan ?></p>
-        <p class="text-capitalize">tinggi kamu adalah...<?php echo $tinggiBadan ?></p>
-
-        <table class="table table-dark table-hover">
-        <thead><tr>
-          <th>no</th>
-          <th>nama</th>
-          <th>kode</th>
-          <th>umur</th>
-          <th>tinggi badan</th>
-          <th>berat badan</th>
-          <th>hasil kalkulasi</th>
-        </thead>
-        <tbody>
-          <?php $nomor = 1;
-            foreach($batch as $data){
-              echo '<tr><td>'.$nomor.'</br>';
-              echo '<td>' . $data['nama'] . '</br>';
-              echo '<td>' . $data['umur'] . '</br>';
-              echo '<td>' . $data['tb'] . '</br>';
-              echo '<td>' . $data['bb'] . '</br>';
-            $nomor++; 
-           }
-            
-          ?>
-        
-        </tbody>
-      </table>
+  <body class="bg-primary">
+    <section id="home">
+      <div class="container bg-primary">
+        <div class="header">
+          <h2 class="text-center text-capitalize text-light">data berhasil di <span class="fst-italic">input</span></h2>
+        </div>
+        <div class="forTable">
+          <table class="table table-hover table-dark text-capitalize">
+            <thead>
+              <tr>
+                <th>no</th>
+                <th>tanggal periksa</th>
+                <th>nama pasien</th>
+                <th>gender</th>
+                <th>umur</th>
+                <th>tinggi badan</th>
+                <th>berat badan</th>
+                <th>hasil BMI</th>
+                <th>ket.</th>
+              </tr>
+            </thead>  
+            <tbody>
+              <?php 
+                $no = 1;
+                foreach($ar_pasien as $isi):
+              ?>
+            <tr>
+              <td><?= $no?></td>
+              <td><?= $isi->tanggal?></td>
+              <td><?= $isi->nama?></td>
+              <td><?= $isi->gender?></td>
+              <td><?= $isi->umur?></td>
+              <td><?= $isi->tinggi?></td>
+              <td><?= $isi->berat?></td>
+              <td><?= $isi->nilaiBMI()?></td>
+              <td><?= $isi->keterangan()?></td>
+            </tr>
+              <?php
+                $no++; 
+              endforeach;
+              ?>
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
   </body>
 </html>
